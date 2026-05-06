@@ -322,7 +322,15 @@
 			{
 				"name": "Alert",
 				"type": "WebActivity",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -335,7 +343,7 @@
 					"method": "POST",
 					"url": "https://prod-28.northcentralus.logic.azure.com:443/workflows/261e3f5f78c04caa9571beae68a91b4e/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=9rXRdMIWJXidAM_dzq_p5I2TgoeY0fvqU6wKU456nAQ",
 					"body": {
-						"value": "{\"pipe_line_name\":@{pipeline().Pipeline},\n \"pipeline_run_id\":@{pipeline().RunId}\n}",
+						"value": "@concat(\n  '{ \"pipe_line_name\":\"',\n  pipeline().Pipeline,\n  '\", \"pipeline_run_id\":\"',\n  pipeline().RunId,\n  '\" }'\n)",
 						"type": "Expression"
 					}
 				}
